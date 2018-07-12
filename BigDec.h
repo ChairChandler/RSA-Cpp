@@ -71,5 +71,5 @@ static inline C_BigDec BigDec_delZeroes(C_BigDec number, size_t length) {
 	
 	return number;
 }
-#include "BigDec.c"
+
 #endif

@@ -117,7 +117,7 @@ BigDec& RSA::relPrimeNum(BigDec &number)
 	return *nmb;
 }
 
-BigDec* RSA::encrypt(char *message) 
+BigDec* RSA::encrypt(char *message)
 {
 	
 	char nmb[MAX_NUM];
@@ -160,7 +160,7 @@ BigDec* RSA::encrypt(std::string &message)
 	return ptr;
 }
 
-std::string& RSA::decrypt(BigDec numbers[], size_t length) 
+std::string& RSA::decrypt(BigDec numbers[], size_t length)
 {
 	
 	std::string decMessage;

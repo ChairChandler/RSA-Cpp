@@ -64,9 +64,14 @@ BigDec& RSA::checkPrime(BigDec &number)
 	fgets(buff,MAX_DIGITS,pPipe);
 	pclose(pPipe);
 	
+	int i=1;
+	while(buff[i]=='-'||(buff[i]>='0'&&buff[i]<='9'))
+	i++;
+
 	delete arg;
-	arg=new char[strlen(buff)-1];
-	memcpy(arg,buff+1,strlen(buff)-2);
+	arg=new char[i];
+	memcpy(arg,buff+1,i-1);
+	arg[i-1]='\0';
 	
 	BigDec *ptr;
 	ptr=new BigDec(arg);
@@ -160,7 +165,7 @@ BigDec* RSA::encrypt(std::string &message)
 	return ptr;
 }
 
-std::string& RSA::decrypt(BigDec numbers[], size_t length)
+std::string RSA::decrypt(BigDec numbers[], size_t length)
 {
 	
 	std::string decMessage;
@@ -172,7 +177,6 @@ std::string& RSA::decrypt(BigDec numbers[], size_t length)
 		aux=aux.modularPower(this->Private.d,this->Private.n);
 		decMessage+=char(atoi(aux));
 	}
-	decMessage[length]='\0';
 	
 	return decMessage;
 	

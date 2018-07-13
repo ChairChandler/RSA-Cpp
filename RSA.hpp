@@ -31,7 +31,7 @@ class RSA
 		void generateKeys(size_t length);
 		BigDec* encrypt(char *message);
 		BigDec* encrypt(std::string &message);
-		std::string& decrypt(BigDec numbers[], size_t length);
+		std::string decrypt(BigDec numbers[], size_t length);
 };
 
 #endif

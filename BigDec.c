@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <string.h>
-#include "BigDec.h"
 
 C_BigDec BigDec_div(C_BigDec number1, C_BigDec number2) {
 	
-	C_BigDec numberhlp,number3,x,q,pop;
+	C_BigDec numberhlp,number3,x,aux,q,pop;
 	size_t nb1_len,nb2_len,nb3_len;
 	char ans,negnmb1,negnmb2,buff[2];
 	register int i,j,z,m;
+	
+	pop=NULL;
 	
 	if(strcmp(number2,"0")==0)
 	{
@@ -93,28 +94,42 @@ C_BigDec BigDec_div(C_BigDec number1, C_BigDec number2) {
 			if(BigDec_max(numberhlp,q)==1)
 			{
 				number3[i]=z+'0';
+				free(q);
 				j=0;
 				break;
 			}
 			else if(z==9&&BigDec_max(numberhlp,q)==2)
 			{
 				number3[i]=z+'0';
+				aux=q;
 				q=BigDec_sub(numberhlp,q);
+				free(aux);
 				memcpy(numberhlp,q,strlen(q));
 				j=strlen(q);
 			}
 			else if(z>1&&BigDec_max(numberhlp,pop)==2&&BigDec_max(numberhlp,q)==0)
 			{
 				number3[i]=(z-1)+'0';
+				aux=q;
 				q=BigDec_sub(numberhlp,pop);
+				free(aux);
 				memcpy(numberhlp,q,strlen(q));
 				j=strlen(q);
+				free(q);
 				break;	
 			}
+			
+			if(pop!=NULL)
+				free(pop);
+			
 			pop=q;
 		}
 		
 	}
+	
+	if(pop!=NULL)
+		free(pop);
+	free(numberhlp);
 	
 	number3=BigDec_delZeroes(number3,nb3_len);
 	
@@ -122,6 +137,7 @@ C_BigDec BigDec_div(C_BigDec number1, C_BigDec number2) {
 	{
 		number1=(C_BigDec)malloc((strlen(number3)+2)*sizeof(char));
 		memcpy(number1+1,number3,strlen(number3)+1);
+		free(number3);
 		number1[0]='-';
 		number3=number1;
 	}
@@ -536,7 +552,7 @@ C_BigDec BigDec_mod(C_BigDec number1, C_BigDec number2) {
 	rem=BigDec_sub(number1,pom);
 	
 	free(res);
-	free(pom);
+	free(pom);	
 	
 	return rem;
 	
@@ -635,8 +651,12 @@ static C_BigDec BigDec_modularPowerAction(C_BigDec number, C_BigDec exp, C_BigDe
 	{
 		return number;
 	}
-	else if(strcmp(BigDec_mod(exp,"2"),"0")==0)
+	
+	C_BigDec val=BigDec_mod(exp,"2");
+	
+	if(strcmp(val,"0")==0)
 	{
+		free(val);
 		C_BigDec aux,tmp;
 		
 		tmp=BigDec_div(exp,"2");
@@ -657,6 +677,7 @@ static C_BigDec BigDec_modularPowerAction(C_BigDec number, C_BigDec exp, C_BigDe
 	}
 	else
 	{
+		free(val);
 		C_BigDec aux,tmp;
 		
 		tmp=BigDec_div(exp,"2");
@@ -666,6 +687,7 @@ static C_BigDec BigDec_modularPowerAction(C_BigDec number, C_BigDec exp, C_BigDe
 		
 		tmp=aux;
 		aux=BigDec_mul(aux,aux);
+		
 		if(strcmp(tmp,number))
 		free(tmp);
 	

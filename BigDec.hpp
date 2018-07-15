@@ -17,6 +17,7 @@ class BigDec
 		BigDec();
 		BigDec(std::string value);
 		BigDec(const char value[]);
+		BigDec(C_BigDec value);
 		BigDec(BigDec &number);
 		virtual ~BigDec();
 		

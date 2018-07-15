@@ -54,6 +54,29 @@ BigDec::BigDec(const char value[])
 	}
 }
 
+BigDec::BigDec(C_BigDec value)
+{
+	if(checkValue(value)==true)
+	{
+		this->strMalloc=0;
+		size_t len;
+		len=strlen(value);
+		this->value=new char[len+1];
+		for(int i=0;i<len;i++)
+			this->value[i]=value[i];
+		this->value[len]='\0';
+	}
+	else
+	{
+		this->strMalloc=0;
+		this->value=new char[2];
+		this->value[0]='0';
+		this->value[1]='\0';
+	}
+	
+	free(value);
+}
+
 BigDec::~BigDec()
 {
 	delValue();

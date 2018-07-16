@@ -6,6 +6,11 @@
 #include "BigDec.hpp"
 #include "RSA.hpp"
 
+static const int MAX_NUM = 4;
+static const int MAX_DIGITS = 2048;
+static const int MAX_SIZE = 200;
+static const int MIN_SIZE = 3;
+
 BigDec& RSA::modInv(BigDec &a, BigDec &b) 
 {
 

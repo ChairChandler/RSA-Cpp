@@ -1,5 +1,35 @@
 #include <stdio.h>
 #include <string.h>
+#include "BigDec.h"
+
+static C_BigDec BigDec_modularPowerAction(C_BigDec number, C_BigDec exp, C_BigDec mod);
+static inline C_BigDec BigDec_delZeroes(C_BigDec number, size_t length);
+
+static inline C_BigDec BigDec_delZeroes(C_BigDec number, size_t length) {
+	
+	C_BigDec hlptr;
+	int i;
+	
+	if(number[0]=='0')
+	{	
+		i=0;
+		while(number[i]=='0'&&i!=length-1) i++;
+		hlptr=(C_BigDec)malloc((length+1-i)*sizeof(char));
+		memcpy(hlptr,number+i,length+1-i); 
+		free(number);
+		number=hlptr;
+	}
+	
+	if(strcmp(number,"")==0)
+	{
+		free(number);
+		number=(C_BigDec)malloc(2*sizeof(char));
+		number[0]='0';
+		number[1]='\0';
+	}
+	
+	return number;
+}
 
 C_BigDec BigDec_div(C_BigDec number1, C_BigDec number2) {
 	

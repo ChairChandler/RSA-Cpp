@@ -3,11 +3,6 @@
 #include "BigDec.hpp"
 #include <string>
 
-const int MAX_NUM = 4;
-const int MAX_DIGITS = 2048;
-const int MAX_SIZE = 200;
-const int MIN_SIZE = 3;
-
 class RSA
 {
 	private:
